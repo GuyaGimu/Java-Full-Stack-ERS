@@ -3,6 +3,8 @@ package com.guya.models;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 @Component
 @Entity
@@ -21,6 +23,15 @@ public class Reimbursement {
 
     @Column(nullable = false)
     private String status;
+
+
+    /*connection to user FK
+    *
+    * Mapped - identifies the FK field in the user
+    * CascadeType.All= any change to a Reimbursement record will affect dependent records
+    **/
+    @OneToMany(mappedBy = "reimbursement", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<User> users;
 
     public Reimbursement() {
     }
@@ -62,6 +73,14 @@ public class Reimbursement {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Override

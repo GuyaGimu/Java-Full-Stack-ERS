@@ -37,7 +37,7 @@ public class User {
     * @JoinColumn - defines the column that will be used to link these tables in the DB
     * **/
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name ="userId") // this links  our FK to the PK in the Reimbursement
+    @JoinColumn(name ="reimbId") // this links  our FK to the PK in the Reimbursement
     private Reimbursement reimbursement;
 
     public User() {
