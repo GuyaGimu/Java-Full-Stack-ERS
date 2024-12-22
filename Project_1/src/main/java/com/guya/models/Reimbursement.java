@@ -1,5 +1,6 @@
 package com.guya.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,7 @@ public class Reimbursement {
     * CascadeType.All= any change to a Reimbursement record will affect dependent records
     **/
     @OneToMany(mappedBy = "reimbursement", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore // prevents circular reference in our JSON response
     private List<User> users;
 
     public Reimbursement() {

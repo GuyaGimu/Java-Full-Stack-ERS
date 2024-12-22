@@ -23,7 +23,7 @@ public class ReimbursementController {
     @PostMapping
     public ResponseEntity<Reimbursement> insertReimbursement(@RequestBody Reimbursement reimbursement){
 
-        Reimbursement newReimbursement= reimbursementService.insertReimbursement(reimbursement);
+        Reimbursement newReimbursement= reimbursementService.createReimbursement(reimbursement);
         return ResponseEntity.ok(newReimbursement);
     }
 
@@ -42,4 +42,36 @@ public class ReimbursementController {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
+    //Select all Reimbursement by status
+    @GetMapping("/status/{status}")
+    public ResponseEntity<?> getReimbursementByStatus(@PathVariable String status){
+
+        List<Reimbursement> reimbursements=reimbursementService.findByReimbursementStatus(status);
+
+        if(reimbursements.isEmpty()){
+            return ResponseEntity.status(404).body("No Reimbursement found in " +status);
+        }
+        return ResponseEntity.ok(reimbursements);
+    }
+
+    @GetMapping("/pending")
+    public List<Reimbursement> getAllPendingReimbursements(){
+
+        return reimbursementService.getAllPendingReimbursements();
+    }
+
+   //@GetMapping("/user/{userId}")
+    //public ResponseEntity<?> getReimbursementByUser(@PathVariable int userId){
+
+        //List<Reimbursement> reimbursements=reimbursementService.getReimbursementByUser(userId);
+        //if(reimbursements.isEmpty()){
+           // return ResponseEntity.status(404).body("No Reimbursement found with this  " +userId+ " User  ID");
+       //}
+        //return ResponseEntity.ok(reimbursements);
+   //}
+
+    @PutMapping("/{id}")
+    public void resolveReimbursement(@PathVariable int id, @RequestParam String status){
+        reimbursementService.resolveReimbursement(id,status);
+    }
 }
