@@ -3,11 +3,13 @@ package com.guya.services;
 import com.guya.DAOs.ReimbursementDAO;
 import com.guya.DAOs.UserDAO;
 import com.guya.models.DTOs.IncomingUserDTO;
+import com.guya.models.DTOs.OutgoingUserDTO;
 import com.guya.models.Reimbursement;
 import com.guya.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,9 +59,33 @@ public class UserService {
             return userDAO.save(user);
         }
     }
-    public List<User> getAllUser(){
+    public List<OutgoingUserDTO> getAllUser(){
 
-        return userDAO.findAll();
+        //problem: findAll () return aList of Users. we need a list of OutgoingDTO
+        //Solution: Loop through the user list and make a new List of DTOS
+
+        //Emppty List of OutgoingUserDTOs to be filled below
+        List<OutgoingUserDTO> outgoingUsers = new ArrayList<>();
+
+        //Get all users from DG
+
+        List<User> users = userDAO.findAll();
+
+        //Loop through the Users, adding a new DTO  for each record
+
+        for(User user: users){
+            //add a new DTO to the ArrayList Using the all- args constructor from the DTO
+
+            outgoingUsers.add(new OutgoingUserDTO(
+                    user.getUserId(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getUsername(),
+                    user.getRole(),
+                    user.getReimbursement()
+            ));
+        }
+        return outgoingUsers;
     }
 
     public void deleteUser(int userId){
@@ -67,5 +93,11 @@ public class UserService {
             throw new IllegalArgumentException("User with ID " +userId +"not found");
         }
         userDAO.deleteById(userId);
+    }
+
+    public User promoteToManager(int userId){
+        User user = userDAO.findById(userId).orElseThrow();
+        user.setRole("Manager");
+        return userDAO.save(user);
     }
 }

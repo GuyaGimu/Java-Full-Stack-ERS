@@ -35,9 +35,6 @@ public class ReimbursementService {
         if(reimbursement.getAmount() < 0){
             throw new IllegalArgumentException("Reimbursement amount can not be negative");
         }
-        if(reimbursement.getStatus()== null || reimbursement.getStatus().isBlank()){
-            throw new IllegalArgumentException("Reimbursement status can't be null or empty");
-        }
 
         //if none of this get triggered, then the  reimbursement is valid
 
@@ -62,12 +59,12 @@ public class ReimbursementService {
     }
 
     //If it is not working the problem could be her, coz I made some changes here
-    //public  Reimbursement getReimbursementByUser(IncomingReimbursementDTO  reimbursementDTO){
+    public  Reimbursement getReimbursementByUser(IncomingReimbursementDTO  incomingReimbursementDTO){
 
 
-        //return reimbursementDAO.findById(reimbursementDTO.getUserId())
-              // .orElseThrow(() -> new RuntimeException("Reimbursement not found for user ID: " + reimbursementDTO.getUserId()));
-   // }
+        return reimbursementDAO.findById(incomingReimbursementDTO.getUserId())
+              .orElseThrow(() -> new RuntimeException("Reimbursement not found for user ID: " + incomingReimbursementDTO.getUserId()));
+   }
 
 
     public List<Reimbursement> getAllPendingReimbursements(){

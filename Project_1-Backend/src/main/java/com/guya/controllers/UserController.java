@@ -1,6 +1,7 @@
 package com.guya.controllers;
 
 import com.guya.models.DTOs.IncomingUserDTO;
+import com.guya.models.DTOs.OutgoingUserDTO;
 import com.guya.models.User;
 import com.guya.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;
@@ -34,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUser(){
+    public ResponseEntity<List<OutgoingUserDTO>> getAllUser(){
 
         return ResponseEntity.ok(userService.getAllUser());
     }
@@ -42,5 +44,11 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable int userId){
         userService.deleteUser(userId);
+    }
+
+    @PostMapping("/promote/{userId}")
+    public ResponseEntity<User> promoteToManager(@PathVariable int userId) {
+        User promotedUser = userService.promoteToManager(userId);
+        return ResponseEntity.ok(promotedUser);
     }
 }

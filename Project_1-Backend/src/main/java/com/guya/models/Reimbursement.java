@@ -85,7 +85,14 @@ public class Reimbursement {
         this.users = users;
     }
 
-    @Override
+    @PrePersist
+    public void setDefaultStatus() {
+        if (this.status == null) {
+            this.status = "PENDING";
+        }
+    }
+
+        @Override
     public String toString() {
         return "Reimbursement{" +
                 "reimbId=" + reimbId +

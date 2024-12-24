@@ -23,11 +23,13 @@ public class ReimbursementController {
     }
 
     @PostMapping
-    public ResponseEntity<Reimbursement> insertReimbursement(@RequestBody Reimbursement reimbursement){
-
-        Reimbursement newReimbursement= reimbursementService.createReimbursement(reimbursement);
-        return ResponseEntity.ok(newReimbursement);
+    public ResponseEntity<Reimbursement> createReimbursement(@RequestBody Reimbursement reimbursement) {
+        // Ensure the status is ignored and defaults to PENDING
+        reimbursement.setStatus(null);
+        Reimbursement createdReimbursement = reimbursementService.createReimbursement(reimbursement);
+        return ResponseEntity.ok(createdReimbursement);
     }
+
 
     //Select all Reimbursement
     @GetMapping
@@ -62,12 +64,12 @@ public class ReimbursementController {
         return reimbursementService.getAllPendingReimbursements();
     }
 
-   //@GetMapping("/user/{userId}")
-   //public ResponseEntity<?> getReimbursementByUser(@PathVariable IncomingReimbursementDTO userId){
+   @GetMapping("/user/{userId}")
+   public ResponseEntity<?> getReimbursementByUser(@PathVariable IncomingReimbursementDTO userId){
 
-        //Reimbursement reimbursements=reimbursementService.getReimbursementByUser(userId);
-        //return ResponseEntity.ok(reimbursements);
-  // }
+        Reimbursement reimbursements=reimbursementService.getReimbursementByUser(userId);
+    return ResponseEntity.ok(reimbursements);
+  }
 
     @PutMapping("/{id}")
     public void resolveReimbursement(@PathVariable int id, @RequestParam String status){
