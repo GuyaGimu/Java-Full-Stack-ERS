@@ -31,18 +31,19 @@ public class Reimbursement {
     * Mapped - identifies the FK field in the user
     * CascadeType.All= any change to a Reimbursement record will affect dependent records
     **/
-    @OneToMany(mappedBy = "reimbursement", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonIgnore // prevents circular reference in our JSON response
-    private List<User> users;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name ="userId") // this links  our FK to the PK in the Reimbursement
+    private User user;
 
     public Reimbursement() {
     }
 
-    public Reimbursement(int reimbId, String description, double amount, String status) {
+    public Reimbursement(int reimbId, String description, double amount, String status, User user) {
         this.reimbId = reimbId;
         this.description = description;
         this.amount = amount;
         this.status = status;
+        this.user = user;
     }
 
     public int getReimbId() {
@@ -77,12 +78,12 @@ public class Reimbursement {
         this.status = status;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @PrePersist
@@ -92,14 +93,14 @@ public class Reimbursement {
         }
     }
 
-        @Override
+    @Override
     public String toString() {
         return "Reimbursement{" +
                 "reimbId=" + reimbId +
                 ", description='" + description + '\'' +
                 ", amount=" + amount +
                 ", status='" + status + '\'' +
-                ", users=" + users +
+                ", user=" + user +
                 '}';
     }
 }

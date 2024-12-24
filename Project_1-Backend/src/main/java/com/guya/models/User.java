@@ -1,7 +1,10 @@
 package com.guya.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @Entity
@@ -19,7 +22,7 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String username;
 
     @Column(nullable = false)
@@ -36,21 +39,21 @@ public class User {
           * EAGER =  loads dependency at runtime
     * @JoinColumn - defines the column that will be used to link these tables in the DB
     * **/
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name ="reimbId") // this links  our FK to the PK in the Reimbursement
-    private Reimbursement reimbursement;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore // prevents circular reference in our JSON response
+    private List<Reimbursement> reimbursements;
 
     public User() {
     }
 
-    public User(int userId, String firstName, String lastName, String username, String password, String role, Reimbursement reimbursement) {
+    public User(int userId, String firstName, String lastName, String username, String password, String role, List<Reimbursement> reimbursements) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.role = role;
-        this.reimbursement = reimbursement;
+        this.reimbursements = reimbursements;
     }
 
     public int getUserId() {
@@ -101,12 +104,12 @@ public class User {
         this.role = role;
     }
 
-    public Reimbursement getReimbursement() {
-        return reimbursement;
+    public List<Reimbursement> getReimbursements() {
+        return reimbursements;
     }
 
-    public void setReimbursement(Reimbursement reimbursement) {
-        this.reimbursement = reimbursement;
+    public void setReimbursements(List<Reimbursement> reimbursements) {
+        this.reimbursements = reimbursements;
     }
 
     @Override
@@ -118,7 +121,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
-                ", reimbursement=" + reimbursement +
+                ", reimbursements=" + reimbursements +
                 '}';
     }
 }

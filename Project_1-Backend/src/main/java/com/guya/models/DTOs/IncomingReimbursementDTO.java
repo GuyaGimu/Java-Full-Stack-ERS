@@ -58,6 +58,14 @@ public class IncomingReimbursementDTO {
         this.userId = userId;
     }
 
+
+    @PrePersist
+    public void setDefaultStatus() {
+        if (this.status == null) {
+            this.status = "PENDING";
+        }
+    }
+
     @Override
     public String toString() {
         return "IncomingReimbursementDTO{" +

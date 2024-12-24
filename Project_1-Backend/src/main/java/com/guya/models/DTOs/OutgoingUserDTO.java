@@ -14,18 +14,16 @@ public class OutgoingUserDTO {
 
     private String role = "employee";
 
-    private Reimbursement reimbursement;
 
     public OutgoingUserDTO() {
     }
 
-    public OutgoingUserDTO(int userId, String firstName, String lastName, String username, String role ,Reimbursement reimbursement) {
+    public OutgoingUserDTO(int userId, String firstName, String lastName, String username, String role) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
-        this.role=role;
-        this.reimbursement = reimbursement;
+        this.role = role;
     }
 
     public int getUserId() {
@@ -67,14 +65,6 @@ public class OutgoingUserDTO {
         this.username = role;
     }
 
-    public Reimbursement getReimbursement() {
-        return reimbursement;
-    }
-
-    public void setReimbursement(Reimbursement reimbursement) {
-        this.reimbursement = reimbursement;
-    }
-
     @Override
     public String toString() {
         return "OutgoingUserDTO{" +
@@ -83,7 +73,6 @@ public class OutgoingUserDTO {
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", role='" + role + '\'' +
-                ", reimbursement=" + reimbursement +
                 '}';
     }
 }

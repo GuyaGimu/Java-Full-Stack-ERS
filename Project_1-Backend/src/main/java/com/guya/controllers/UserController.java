@@ -26,13 +26,13 @@ public class UserController {
 
     //Creates/Inserts new users into the DB
     @PostMapping
-    public ResponseEntity<User> insertUser(@RequestBody IncomingUserDTO userDTO){
+    public ResponseEntity<User> insertUser(@RequestBody User user){
 
         //send the userDTO to the service, which will process it and send it to the DAO
-        User  user = userService.insertUser(userDTO);
+        User  createdUser = userService.insertUser(user);
 
         //send back the user object if all goes well
-        return ResponseEntity.status(201).body(user);
+        return ResponseEntity.status(200).body(createdUser);
     }
 
     @GetMapping

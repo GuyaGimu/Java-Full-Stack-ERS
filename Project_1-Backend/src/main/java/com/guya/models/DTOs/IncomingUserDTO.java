@@ -19,18 +19,16 @@ public class IncomingUserDTO {
 
     private String role = "employee";
 
-    private int reimbId;
 
     public IncomingUserDTO() {
     }
 
-    public IncomingUserDTO(String firstName, String lastName, String username, String password, String role, int reimbId) {
+    public IncomingUserDTO(String firstName, String lastName, String username, String password, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.role = role;
-        this.reimbId = reimbId;
     }
 
     public String getFirstName() {
@@ -73,14 +71,6 @@ public class IncomingUserDTO {
         this.role = role;
     }
 
-    public int getReimbId() {
-        return reimbId;
-    }
-
-    public void setReimbId(int reimbId) {
-        this.reimbId = reimbId;
-    }
-
     @Override
     public String toString() {
         return "IncomingUserDTO{" +
@@ -89,7 +79,6 @@ public class IncomingUserDTO {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
-                ", reimbId=" + reimbId +
                 '}';
     }
 }

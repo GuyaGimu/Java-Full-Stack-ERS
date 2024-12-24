@@ -64,15 +64,18 @@ public class ReimbursementController {
         return reimbursementService.getAllPendingReimbursements();
     }
 
-   @GetMapping("/user/{userId}")
-   public ResponseEntity<?> getReimbursementByUser(@PathVariable IncomingReimbursementDTO userId){
-
-        Reimbursement reimbursements=reimbursementService.getReimbursementByUser(userId);
-    return ResponseEntity.ok(reimbursements);
-  }
-
     @PutMapping("/{id}")
     public void resolveReimbursement(@PathVariable int id, @RequestParam String status){
         reimbursementService.resolveReimbursement(id,status);
+    }
+
+    // New method to get reimbursements by userId
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Reimbursement>> getReimbursementsByUserId(@PathVariable int userId) {
+        List<Reimbursement> reimbursements = reimbursementService.getReimbursementsByUserId(userId);
+        if (reimbursements.isEmpty()) {
+            return ResponseEntity.noContent().build(); // Return 204 if no reimbursements found
+        }
+        return ResponseEntity.ok(reimbursements); // Return 200 with the list
     }
 }
