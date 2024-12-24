@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Button, Container, Table } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
 
 interface Reimbursements{
     reimbId:number,
@@ -16,6 +17,10 @@ export const Reimbursements:React.FC = () =>{
         getAllReimbursements()
     },[])
 
+    //useNavigate hook so we can change the URL as needed 
+
+    const navigate  = useNavigate();
+
     const getAllReimbursements = async () =>{
 
         //axios Get Response
@@ -26,6 +31,10 @@ export const Reimbursements:React.FC = () =>{
             setReimbursements(response.data)
 
             console.log(response.data)
+    }
+    const deleteReimbursement= (reimbId:number) =>{
+
+        alert("Reimbursement" + reimbId)
     }
     
     return(
@@ -50,12 +59,13 @@ export const Reimbursements:React.FC = () =>{
                             <td>{reimbursements.amount}</td>
                             <td>{reimbursements.status}</td>
                             <td>
-                                <Button className="btn-danger">Delete</Button>
+                                <Button className="btn-danger" onClick={ () =>{deleteReimbursement(reimbursements.reimbId)}}>Delete</Button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
+            <Button className="btn-info" onClick={() =>{navigate("/manager-dashboard")}}>Back</Button>
         </Container>
     )
 }

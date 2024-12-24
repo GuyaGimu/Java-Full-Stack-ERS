@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Login } from './Components/LoginRegister/Login'
-import { Register } from './Components/LoginRegister/Register'
 import { Reimbursements } from './Components/Reimbursements/Reimbursements'
+import { ManagerDashboard } from './Components/Dashboard/ManagerDashboard'
+import { EmployeeDashboard } from './Components/Dashboard/EmployeeDashboard'
+import { RegisterUser } from './Components/LoginRegister/Register'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,9 +16,11 @@ function App() {
         <BrowserRouter>
           <Routes>
 
-            <Route path='' element={<Login/>}/>
-            <Route path='register' element={<Register/>}/>
-            <Route path='reimbursements' element={<Reimbursements/>} />
+          <Route path="/" element={<Login />} />
+          <Route path="reimbursement" element={<Reimbursements />} />
+          <Route path="register" element={<RegisterUser/>} />
+          <Route path="/manager-dashboard" element={<ManagerDashboard/>} />
+          <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
           </Routes>
         </BrowserRouter>
     </>
